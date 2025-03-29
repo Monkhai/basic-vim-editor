@@ -1,0 +1,9 @@
+./kilo
+
+*.o
+*.out
+*.exe
+*.so
+*.dylib
+*.a
+*.lib
