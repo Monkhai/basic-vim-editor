@@ -7,6 +7,10 @@
 #include <termios.h>
 #include <unistd.h>
 
+/*** defines ***/
+
+#define CTRL_KEY(k) ((k) & 0x1f)
+
 /*** data ***/
 
 struct termios original_termios;
@@ -49,6 +53,34 @@ void enableRawMode(void)
     }
 }
 
+char editorReadKey(void)
+{
+    int nread;
+    char c;
+    while ((nread = read(STDIN_FILENO, &c, 1)) != 1)
+    {
+        if (nread == -1 && errno != EAGAIN)
+        {
+            die("read");
+        }
+    }
+    return c;
+}
+
+/*** input ****/
+
+void editorProcessKeypress(void)
+{
+    char c = editorReadKey();
+
+    switch (c)
+    {
+    case CTRL_KEY('q'):
+        exit(0);
+        break;
+    }
+}
+
 /*** init ****/
 
 int main(void)
@@ -57,24 +89,7 @@ int main(void)
 
     while (1)
     {
-        char c = '\0';
-        if (read(STDIN_FILENO, &c, 1) == -1 && errno != EAGAIN)
-        {
-            die("read");
-        }
-
-        if (iscntrl(c))
-        {
-            printf("%d\r\n", c);
-        }
-        else
-        {
-            printf("%d ('%c')\r\n", c, c);
-        }
-        if (c == 'q')
-        {
-            break;
-        }
+        editorProcessKeypress();
     }
     return 0;
 }
