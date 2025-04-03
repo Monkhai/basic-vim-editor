@@ -103,17 +103,14 @@ int editorReadKey(void)
         {
             switch (seq[1])
             {
-                switch (seq[1])
-                {
-                case 'A':
-                    return ARROW_UP;
-                case 'B':
-                    return ARROW_DOWN;
-                case 'C':
-                    return ARROW_RIGHT;
-                case 'D':
-                    return ARROW_LEFT;
-                }
+            case 'A':
+                return ARROW_UP;
+            case 'B':
+                return ARROW_DOWN;
+            case 'C':
+                return ARROW_RIGHT;
+            case 'D':
+                return ARROW_LEFT;
             }
         }
         return '\x1b';
@@ -185,7 +182,6 @@ void editorMoveCursor(int key)
         E.cx--;
         break;
     case ARROW_RIGHT:
-        break;
         E.cx++;
         break;
     case ARROW_UP:
